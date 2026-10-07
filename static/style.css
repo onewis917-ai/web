@@ -225,7 +225,7 @@ button {
 }
 
 .brand-mark::after {
-  content: "K";
+  content: "L";
   position: absolute;
   font-size: 20px;
   font-weight: 900;
