@@ -266,18 +266,7 @@ button {
   text-transform: uppercase;
 }
 
-.version {
-  display: inline-block;
-  margin-left: 6px;
-  padding: 1px 6px;
-  background: var(--purple-dim);
-  border: 1px solid rgba(124, 92, 252, 0.25);
-  border-radius: 4px;
-  color: #7c7dff;
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
+
 
 
 .topbar-right {
