@@ -236,7 +236,7 @@ button {
 }
 
 .brand-mark::before {
-  content: "";
+  content: "L";
   position: absolute;
   inset: -1px;
   border-radius: 14px;
