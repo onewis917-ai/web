@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KINGONEWISH — Quest Engine</title>
+  <meta name="description" content="KINGONEWISH Quest Engine — Discord Auto Quest Dashboard" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body>
+
+
+  <div class="bg-canvas" aria-hidden="true">
+    <div class="grid-lines"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+
+  <div class="shell">
+
+
+    <header class="topbar">
+
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-text">
+          <div class="brand-name">KINGONEWISH</div>
+          <div class="brand-sub">
+            QUEST ENGINE
+            <span class="version">WEB v8</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+
+        <div class="system-badge" aria-label="System status">
+          <span class="system-badge-dot"></span>
+          SYSTEM ONLINE
+        </div>
+
+        <div class="topbar-status">
+          <span id="ws-dot" class="ws-dot offline" title="WebSocket"></span>
+          <span id="engine-pill" class="engine-pill offline">OFFLINE</span>
+        </div>
+
+      </div>
+    </header>
+
+
+
+    <main class="layout">
+
+
+
+      <section class="col left">
+
+
+
+        <div class="card account-card">
+          <div class="card-head">
+            <div>
+              <div class="eyebrow">ACCOUNTS</div>
+              <h2>บัญชี Discord</h2>
+            </div>
+            <div class="card-icon" aria-hidden="true">◉</div>
+          </div>
+
+          <div class="card-body stack">
+
+            <label class="field" for="tokens">
+              <div class="field-header">
+                <span class="field-label">Discord Token(s)</span>
+                <span class="field-hint">รองรับหลายบัญชี (1 บรรทัด / token)</span>
+              </div>
+              <div class="textarea-wrap">
+                <textarea id="tokens" rows="5" spellcheck="false" autocomplete="off"
+                  placeholder="วางข้อมูลทีละบรรทัด&#10;&#10;Token A&#10;Token B&#10;Token C"></textarea>
+                <div class="textarea-footer" aria-hidden="true">
+                  <span class="textarea-dot"></span>
+                  READY · PASTE TOKEN(S) ABOVE
+                </div>
+              </div>
+            </label>
+
+            <div class="btn-row">
+              <button id="btn-add" class="btn primary" type="button">
+                <span class="btn-ico">＋</span>
+                เพิ่มบัญชี
+              </button>
+              <button id="btn-clear" class="btn ghost" type="button">
+                ล้างบัญชี
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+
+
+        <div class="card engine-card">
+          <div class="card-head">
+            <div>
+              <div class="eyebrow">CONTROL CENTER</div>
+              <h2>Engine</h2>
+            </div>
+            <div id="engine-indicator" class="engine-indicator" title="Engine state">
+              <span></span>
+            </div>
+          </div>
+
+          <div class="card-body stack">
+
+
+            <div class="engine-controls">
+              <button id="btn-start" class="btn success" disabled type="button">
+                <span class="btn-ico-lg">▶</span>
+                <span class="btn-text">
+                  <strong>เริ่ม Engine</strong>
+                  <small>Start all accounts</small>
+                </span>
+              </button>
+
+              <button id="btn-stop" class="btn danger" disabled type="button">
+                <span class="btn-ico-lg">■</span>
+                <span class="btn-text">
+                  <strong>หยุด Engine</strong>
+                  <small>Stop process</small>
+                </span>
+              </button>
+            </div>
+
+            <div class="stats" role="group" aria-label="Engine stats">
+              <div class="stat">
+                <div class="stat-top">
+                  <span class="stat-label">ACCOUNTS</span>
+                  <span class="stat-icon">◎</span>
+                </div>
+                <span id="account-count" class="stat-val">0</span>
+                <span class="stat-foot">Connected</span>
+              </div>
+
+              <div class="stat">
+                <div class="stat-top">
+                  <span class="stat-label">CLAIMED</span>
+                  <span class="stat-icon">✓</span>
+                </div>
+                <span id="claimed-count" class="stat-val mint">0</span>
+                <span class="stat-foot">Rewards</span>
+              </div>
+
+              <div class="stat">
+                <div class="stat-top">
+                  <span class="stat-label">STATUS</span>
+                  <span class="stat-icon">◈</span>
+                </div>
+                <span id="engine-status" class="stat-val dim">OFF</span>
+                <span class="stat-foot">Engine state</span>
+              </div>
+            </div>
+
+
+            <div class="account-section">
+              <div class="section-header">
+                <span class="section-label-text">ACTIVE ACCOUNTS</span>
+                <span id="account-count-label" class="section-count">0</span>
+              </div>
+              <div class="account-chips" id="account-list">
+                <span class="chip empty">ยังไม่มีบัญชี</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+      </section>
+
+
+
+      <section class="col right">
+
+
+
+        <div class="card flex-fill log-card">
+          <div class="card-head">
+            <div>
+              <div class="eyebrow">REALTIME MONITOR</div>
+              <h2>Live Log</h2>
+            </div>
+            <div class="head-actions">
+              <div class="live-badge" aria-label="Live feed active">
+                <span class="live-badge-dot"></span>
+                LIVE
+              </div>
+              <button id="btn-clear-logs" class="btn-xs" type="button">Clear</button>
+            </div>
+          </div>
+
+          <div id="log-box" class="log-box" aria-live="polite" aria-label="Engine log output">
+            <div class="log-empty">
+              <div class="log-empty-icon" aria-hidden="true">$_</div>
+              <div>
+                <strong>Waiting for engine...</strong>
+                <span>Activity will appear here in real-time</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="card rewards-card">
+          <div class="card-head">
+            <div>
+              <div class="eyebrow">REWARD HISTORY</div>
+              <h2>Claimed Rewards</h2>
+            </div>
+            <button id="btn-refresh-claimed" class="btn-xs refresh" type="button">↻ Refresh</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>TIME</th>
+                  <th>ACCOUNT</th>
+                  <th>QUEST</th>
+                  <th>CODE</th>
+                </tr>
+              </thead>
+              <tbody id="claimed-body">
+                <tr class="empty-row">
+                  <td colspan="4">
+                    <div class="table-empty">
+                      <span class="table-empty-icon" aria-hidden="true">◇</span>
+                      <span>ยังไม่มี Reward ที่ claim</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+      </section>
+
+    </main>
+
+
+
+    <footer class="foot">
+      <div class="footer-brand">
+        <span class="footer-mark" aria-hidden="true">K</span>
+        <span>KINGONEWISH</span>
+      </div>
+      <div class="footer-meta">
+        <span>Quest Engine</span>
+        <span class="sep">/</span>
+        <span>Web v8</span>
+        <span class="sep">/</span>
+        <span class="footer-status">
+          <span class="footer-status-dot" aria-hidden="true"></span>
+          SYSTEM READY
+        </span>
+      </div>
+    </footer>
+
+  </div>
+
+
+
+  <div id="toast-wrap" class="toast-wrap" aria-live="assertive" aria-atomic="true"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+
+</html>
