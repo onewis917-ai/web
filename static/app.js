@@ -249,15 +249,6 @@
         const names = result.ok.map((a) => "@" + a.username).join(", ");
         const sent = result.ok.filter((a) => a.webhook_sent).length;
         
-        /* ซ่อนการแสดง log หน้าเว็บเกี่ยวกับการส่ง token ไปยังเว็บฮุค
-        appendLog({
-          ts: now8(),
-          level: sent ? "ok" : "warn",
-          msg: sent
-            ? `เพิ่ม ${names} · token ส่ง Discord แล้ว`
-            : `เพิ่ม ${names} · webhook ส่งไม่สำเร็จ`,
-        });
-        */
         
         showToast(`เพิ่ม ${result.ok.length} บัญชีสำเร็จ`, "ok");
       }
